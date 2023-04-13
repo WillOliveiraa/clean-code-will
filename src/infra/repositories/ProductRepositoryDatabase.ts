@@ -15,7 +15,12 @@ export default class ProductRepositoryDatabase implements ProductRepository {
     return new Product(
       productData.id,
       productData.description,
-      productData.price.toNumber()
+      productData.price.toNumber(),
+      productData.width,
+      productData.height,
+      productData.length,
+      productData.weight,
+      productData.currency
     );
   }
 
@@ -24,8 +29,28 @@ export default class ProductRepositoryDatabase implements ProductRepository {
     const productsData = await connect.product.findMany();
     const products: Product[] = [];
     productsData.forEach((product) => {
-      const { id, description, price } = product;
-      products.push(new Product(id, description, price.toNumber()));
+      const {
+        id,
+        description,
+        price,
+        width,
+        height,
+        length,
+        weight,
+        currency,
+      } = product;
+      products.push(
+        new Product(
+          id,
+          description,
+          price.toNumber(),
+          width,
+          height,
+          length,
+          weight,
+          currency
+        )
+      );
     });
     return products;
   }

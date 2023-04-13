@@ -14,6 +14,11 @@ model Product {
   id          String  @id @unique @default(uuid())
   description String
   price       Decimal
+  width       Int
+  height      Int
+  length      Int
+  weight      Float
+  currency    String
 
   @@map("products")
 }

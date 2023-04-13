@@ -20,9 +20,18 @@ test("Deve criar um pedido com 3 produtos", async () => {
   const uuid = crypto.randomUUID();
   const cpf = "407.302.170-27";
   const order = new Order(uuid, cpf);
-  order.addItem(new Product("1", faker.commerce.productName(), 100.0), 3);
-  order.addItem(new Product("2", faker.commerce.productName(), 200.0), 1);
-  order.addItem(new Product("3", faker.commerce.productName(), 300.0), 1);
+  order.addItem(
+    new Product("1", faker.commerce.productName(), 100, 100, 30, 10, 3, "BRL"),
+    3
+  );
+  order.addItem(
+    new Product("2", faker.commerce.productName(), 200, 100, 30, 10, 3, "BRL"),
+    1
+  );
+  order.addItem(
+    new Product("3", faker.commerce.productName(), 300, 100, 30, 10, 3, "BRL"),
+    1
+  );
   expect(order.getTotal()).toBe(800);
 });
 
@@ -34,7 +43,16 @@ test.each([-2, 0])(
     const order = new Order(uuid, cpf);
     expect(() =>
       order.addItem(
-        new Product(uuid, faker.commerce.productName(), 300.0),
+        new Product(
+          uuid,
+          faker.commerce.productName(),
+          1000,
+          100,
+          30,
+          10,
+          3,
+          "BRL"
+        ),
         value
       )
     ).toThrow(new Error("Invalid quantity"));
@@ -45,7 +63,16 @@ test("Não deve criar um pedido com o produto duplicado", async () => {
   const uuid = crypto.randomUUID();
   const cpf = "407.302.170-27";
   const order = new Order(uuid, cpf);
-  const product = new Product("1", faker.commerce.productName(), 100.0);
+  const product = new Product(
+    "1",
+    faker.commerce.productName(),
+    1000,
+    100,
+    30,
+    10,
+    3,
+    "BRL"
+  );
   order.addItem(product, 3);
   expect(() => order.addItem(product, 3)).toThrow(new Error("Duplicated item"));
 });
