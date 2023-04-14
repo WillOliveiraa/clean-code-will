@@ -26,3 +26,10 @@ test("Deve validar um cupom de desconto expirado", async () => {
   const output = await validateCoupon.execute(input);
   expect(output).toBeFalsy();
 });
+
+test("Não deve validar um cupom de desconto não encontrado", async () => {
+  const input = "VALE50";
+  expect(async () => await validateCoupon.execute(input)).rejects.toThrow(
+    new Error("Coupon not found")
+  );
+});

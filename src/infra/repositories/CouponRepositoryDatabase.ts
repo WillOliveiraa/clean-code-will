@@ -9,7 +9,7 @@ export default class CouponRepositoryDatabase implements CouponRepository {
   async getCoupon(code: string): Promise<Coupon | null> {
     const connect = (this.connection as PrismaAdapter).prisma;
     const couponData = await connect.coupon.findFirst({ where: { code } });
-    if (couponData === null) throw new Error("Coupon not found");
+    if (couponData === null) return null;
     return new Coupon(
       couponData.id,
       couponData.percentage.toNumber(),

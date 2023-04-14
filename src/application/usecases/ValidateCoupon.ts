@@ -6,6 +6,6 @@ export default class ValidateCoupon {
   async execute(code: string): Promise<boolean> {
     const coupon = await this.couponRepository.getCoupon(code);
     if (!coupon) throw new Error("Coupon not found");
-    return !coupon?.isExpired(new Date());
+    return !coupon.isExpired(new Date());
   }
 }
