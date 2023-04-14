@@ -1,1 +1,3 @@
-export default interface Connection {}
+export default interface Connection {
+  close(): Promise<void>;
+}

@@ -7,4 +7,8 @@ export default class PrismaAdapter implements Connection {
   constructor() {
     this.prisma = new PrismaClient();
   }
+
+  async close(): Promise<void> {
+    await this.prisma.$disconnect();
+  }
 }

@@ -7,20 +7,13 @@ let connection: PrismaAdapter;
 let checkout: Checkout;
 let productRepository: ProductRepository;
 
-beforeAll(async () => {
+beforeEach(async () => {
   connection = new PrismaAdapter();
   productRepository = new ProductRepositoryDatabase(connection);
   checkout = new Checkout(productRepository);
-  await connection.prisma.product.create({
-    data: {
-      id: "1",
-      description: "Product teste",
-      price: 100,
-    },
-  });
 });
 
-afterAll(async () => await connection.prisma.product.deleteMany());
+afterEach(async () => await connection.close());
 
 test("Não deve cadastrar um pedido com CPF inválido", async () => {
   const input = {
@@ -85,18 +78,14 @@ test("Não deve criar um pedido com o produto duplicado", async () => {
 });
 
 test("Deve criar um pedido com 3 produtos", async () => {
-  const prod2 = { id: "2", description: "Product teste 2", price: 200 };
-  const prod3 = { id: "3", description: "Product teste 3", price: 300 };
-  await connection.prisma.product.create({ data: prod2 });
-  await connection.prisma.product.create({ data: prod3 });
   const input = {
     cpf: "407.302.170-27",
     items: [
       { idProduct: "1", quantity: 3 },
-      { idProduct: "2", quantity: 2 },
+      { idProduct: "2", quantity: 1 },
       { idProduct: "3", quantity: 1 },
     ],
   };
   const output = await checkout.execute(input);
-  expect(output.total).toBe(1000);
+  expect(output.total).toBe(5330);
 });
