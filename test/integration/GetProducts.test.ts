@@ -1,3 +1,5 @@
+import sinon from "sinon";
+import { products } from "../../prisma/utils/ProductsData";
 import ProductRepository from "../../src/application/repositories/ProductRepositoy";
 import GetProducts from "../../src/application/usecases/GetProducts";
 import PrismaAdapter from "../../src/infra/database/PrismaAdapter";
@@ -15,6 +17,11 @@ beforeEach(async () => {
 afterEach(async () => await connection.close());
 
 test("Deve buscar todos os produtos", async () => {
+  const productsFilter = products.filter((product) => product.weight > 1);
+  const stubProductRepository = sinon
+    .stub(ProductRepositoryDatabase.prototype, "getProducts")
+    .resolves(productsFilter);
   const output = await getProducts.execute();
-  expect(output.total).toBe(6);
+  expect(output.total).toBe(4);
+  stubProductRepository.restore();
 });

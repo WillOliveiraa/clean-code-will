@@ -10,6 +10,9 @@ export const products: Product[] = [
     length: 10,
     weight: 3,
     currency: "BRL",
+    getVolume() {
+      return 1;
+    },
   },
   {
     id: "2",
@@ -20,6 +23,9 @@ export const products: Product[] = [
     length: 50,
     weight: 22,
     currency: "BRL",
+    getVolume() {
+      return 1;
+    },
   },
   {
     id: "3",
@@ -30,16 +36,22 @@ export const products: Product[] = [
     length: 10,
     weight: 0.9,
     currency: "BRL",
+    getVolume() {
+      return 1;
+    },
   },
   {
     id: "4",
     description: "Product 4",
     price: 30,
-    width: 10,
+    width: -10,
     height: 10,
     length: 10,
     weight: 0.9,
     currency: "BRL",
+    getVolume() {
+      return 1;
+    },
   },
   {
     id: "5",
@@ -50,6 +62,9 @@ export const products: Product[] = [
     length: 10,
     weight: 3,
     currency: "USD",
+    getVolume() {
+      return 1;
+    },
   },
   {
     id: "6",
@@ -60,5 +75,8 @@ export const products: Product[] = [
     length: 20,
     weight: 4,
     currency: "USD",
+    getVolume() {
+      return 1;
+    },
   },
 ];

@@ -1,3 +1,4 @@
+import Coupon from "./Coupon";
 import Cpf from "./Cpf";
 import OrderItem from "./OrdemItem";
 import Product from "./Product";
@@ -6,6 +7,8 @@ export default class Order {
   readonly cpf: Cpf;
   readonly items: OrderItem[];
   readonly code: string;
+  coupon?: Coupon;
+  freight = 0;
 
   constructor(
     readonly id: string | undefined,
@@ -25,11 +28,19 @@ export default class Order {
     this.items.push(new OrderItem(product.id!, product.price, quantity));
   }
 
+  addCoupon(coupon: Coupon) {
+    if (!coupon.isExpired(this.date)) this.coupon = coupon;
+  }
+
   getTotal() {
     let total = 0;
     this.items.forEach((item) => {
       total += item.price * item.quantity;
     });
+    if (this.coupon) {
+      total -= this.coupon.calculeteDiscount(total);
+    }
+    total += this.freight;
     return total;
   }
 

@@ -13,7 +13,7 @@ export default class HttpController {
       return output;
     });
 
-    httpServer.on("get", "/product", async (params: any, body: any) => {
+    httpServer.on("get", "/products", async (params: any, body: any) => {
       const output = await getProducts.execute();
       return output;
     });
