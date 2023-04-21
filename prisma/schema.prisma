@@ -19,15 +19,44 @@ model Product {
   length      Int
   weight      Float
   currency    String
+  Items       Items[]
 
   @@map("products")
 }
 
 model Coupon {
-  id         String   @id @unique @default(uuid())
-  code       String
-  percentage Decimal
-  expireDate DateTime
+  id          String    @id @unique @default(uuid())
+  code        String
+  percentage  Decimal
+  expire_date DateTime?
+  orders      Order[]
 
   @@map("coupons")
+}
+
+model Order {
+  id        String   @id @unique @default(uuid())
+  cpf       String
+  code      String
+  total     Decimal
+  freight   Decimal
+  date      DateTime @default(now())
+  items     Items[]
+  coupon    Coupon?  @relation(fields: [coupon_id], references: [id])
+  coupon_id String?
+
+  @@map("orders")
+}
+
+model Items {
+  id       String  @id @unique @default(uuid())
+  price    Decimal
+  quantity Int
+
+  product    Product @relation(fields: [product_id], references: [id])
+  order      Order   @relation(fields: [order_id], references: [id])
+  order_id   String
+  product_id String
+
+  @@map("items")
 }

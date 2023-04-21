@@ -13,7 +13,7 @@ export default class CouponRepositoryDatabase implements CouponRepository {
     return new Coupon(
       couponData.id,
       couponData.percentage.toNumber(),
-      couponData.expireDate
+      couponData.expire_date!
     );
   }
 }

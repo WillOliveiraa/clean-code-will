@@ -21,6 +21,14 @@ async function main() {
   };
   await prisma.coupon.create({ data: coupon1 });
   await prisma.coupon.create({ data: coupon2 });
+  const order1 = {
+    id: "1",
+    cpf: "407.302.170-27",
+    code: "1",
+    total: 150,
+    freight: 10,
+  };
+  await prisma.orders.create({ data: order1 });
 }
 
 main()
